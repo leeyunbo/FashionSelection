@@ -16,6 +16,10 @@ class MainActivity : AppCompatActivity(),MainContract.View {
 
     }
 
+    override fun updateWeatherUI() {
+
+    }
+
     override fun onDestroy() {
         super.onDestroy()
     }
