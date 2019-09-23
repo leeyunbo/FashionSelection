@@ -3,6 +3,7 @@ package com.example.weatherclothselection.Data
 import android.content.res.Resources
 import android.os.DropBoxManager
 import android.util.Xml
+import com.example.weatherclothselection.DAO.Entry
 import com.example.weatherclothselection.MainActivity
 import org.xmlpull.v1.XmlPullParser
 import org.xmlpull.v1.XmlPullParserException
@@ -29,19 +30,26 @@ class GetWeatherData {
     }
 
     @Throws(XmlPullParserException::class, IOException::class)
-    private fun readFeed(parser : XmlPullParser) : List<KeyStore.Entry> {
-        val entries = mutableListOf<KeyStore.Entry>()
+    private fun readFeed(parser : XmlPullParser) : List<Entry> {
+        val entries = mutableListOf<Entry>()
 
         parser.require(XmlPullParser.START_TAG,ns,"feed")
         while (parser.next() != XmlPullParser.END_TAG) {
             if(parser.eventType != XmlPullParser.START_TAG) {
                 continue
             }
-            if (parser.name == "channel") {
-                entries.add()
+            if (parser.name == "data") {
+                entries.add(readEntry(parser))
+                break
+            } else {
+                skip(parser)
             }
         }
 
+        return entries
+
     }
+
+    
 
 }
