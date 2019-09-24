@@ -17,7 +17,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintHorizontal_bias="0.424"
-            app:layout_constraintTop_toBottomOf="@+id/wet_text_view"/>
+            app:layout_constraintTop_toBottomOf="@+id/wet_text_view" app:srcCompat="@mipmap/ic_launcher"/>
     <TextView
             android:text="경기도 수원시"
             android:layout_width="wrap_content"
@@ -64,7 +64,7 @@
             app:layout_constraintBottom_toTopOf="@+id/textView5"
             app:layout_constraintStart_toStartOf="parent"
             android:layout_marginLeft="67dp"
-            android:layout_marginStart="67dp"/>
+            android:layout_marginStart="67dp" app:srcCompat="@mipmap/ic_launcher"/>
     <TextView
             android:textStyle="bold"
             android:text="오늘은 무엇을 입을까요?"
@@ -78,23 +78,24 @@
             app:layout_constraintTop_toBottomOf="@+id/weather_image_view"
             android:layout_marginBottom="356dp"/>
 
-    <Button android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="갱신"
-            android:id="@+id/new_button"
-            app:layout_constraintRight_toStartOf="@+id/wet_text_view"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/cloth_image_view"
-            android:layout_marginBottom="60dp"
-            app:layout_constraintVertical_bias="1.0" app:layout_constraintStart_toStartOf="parent"
-            android:layout_marginLeft="147dp" android:layout_marginStart="147dp"/>
     <TextView
             android:text="날짜"
             android:textSize="20dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/textView" android:layout_marginEnd="35dp" android:layout_marginRight="35dp"
-            android:layout_marginBottom="12dp" app:layout_constraintEnd_toEndOf="@+id/weather_image_view"
+            android:id="@+id/textView"
+            android:layout_marginEnd="35dp"
+            android:layout_marginRight="35dp"
+            android:layout_marginBottom="12dp"
+            app:layout_constraintEnd_toEndOf="@+id/weather_image_view"
             app:layout_constraintBottom_toTopOf="@+id/weather_image_view"/>
+    <TextView
+            android:text="날씨"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/weather_text_view"
+            android:layout_marginTop="10dp"
+            app:layout_constraintTop_toBottomOf="@+id/weather_image_view"
+            app:layout_constraintEnd_toStartOf="@+id/textView"/>
 
 </android.support.constraint.ConstraintLayout>

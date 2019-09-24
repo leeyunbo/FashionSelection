@@ -14,17 +14,19 @@ import java.security.KeyStore
 
 private val ns: String? = null
 data class Entry (
+    val category : String?,
     val tmx : String?,
     val tmn : String?,
     val wfKor : String?,
-    val reh : String?
+    val reh : String?,
+    val tm : String?
 )
 
-//"http://www.kma.go.kr/wid/queryDFSRSS.jsp?zone=4111757000"
+
 class GetWeatherData {
 
     @Throws(XmlPullParserException::class, IOException::class)
-    fun GetWeatherData(inputStream : InputStream) : List<*> {
+    fun GetWeatherData(inputStream : InputStream) : List<Entry> {
         inputStream.use { inputStream ->
             val parser: XmlPullParser = Xml.newPullParser()
             parser.setFeature(XmlPullParser.FEATURE_PROCESS_NAMESPACES, false)
@@ -44,7 +46,7 @@ class GetWeatherData {
             if(parser.eventType != XmlPullParser.START_TAG) {
                 continue
             }
-            if (parser.name == "data") {
+            if (parser.name == "item") {
                 entries.add(readEntry(parser))
                 break
             } else {
@@ -62,6 +64,8 @@ class GetWeatherData {
         var tmn : String? = null
         var wfKor : String? = null
         var reh : String? = null
+        var tm : String? = null
+        var category : String? = null
         while (parser.next() != XmlPullParser.END_TAG) {
             if (parser.eventType != XmlPullParser.START_TAG) {
                 continue
@@ -71,22 +75,17 @@ class GetWeatherData {
                 "tmn" -> tmn = readData(parser, "tmn")
                 "wkKor" -> wfKor = readData(parser, "wkKor")
                 "reh" -> reh = readData(parser, "reh")
+                "category" -> category = readData(parser, "category")
+                "tm" -> tm = readData(parser, "tm")
             }
         }
-        return Entry(tmx,tmn,wfKor,reh)
+        return Entry(category,tmx,tmn,wfKor,reh,tm)
     }
 
     @Throws(IOException::class, XmlPullParserException::class)
     private fun readData(parser : XmlPullParser, want_tag : String) : String {
-        var data = ""
         parser.require(XmlPullParser.START_TAG, ns, want_tag)
-        val tag = parser.name
-        val seq = parser.getAttributeValue(null, "seq")
-        if (tag == want_tag) {
-            if (seq == "0") {
-                data = readText(parser)
-            }
-        }
+        val data = readText(parser)
         parser.require(XmlPullParser.END_TAG, ns, want_tag)
         return data
     }
