@@ -14,10 +14,6 @@ interface MainContract {
 
     interface View {
         var presenter : MainContract.Presenter
-        var temp_max : String?
-        var temp_min : String?
-        var weather : String?
-        var time : String?
 
         fun updateWeatherUI() //날씨 관련 UI 업데이트
         fun networkConnect() // 네트워크 연결

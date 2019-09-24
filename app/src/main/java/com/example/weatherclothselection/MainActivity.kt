@@ -20,19 +20,14 @@ import java.net.URL
 
 class MainActivity : AppCompatActivity(),MainContract.View {
     override lateinit var presenter : MainContract.Presenter
-    override var temp_max: String?
-        get() = TODO("not implemented") //To change initializer of created properties use File | Settings | File Templates.
-        set(value) {}
-    override var temp_min: String?
-        get() = TODO("not implemented") //To change initializer of created properties use File | Settings | File Templates.
-        set(value) {}
-    override var time: String?
-        get() = TODO("not implemented") //To change initializer of created properties use File | Settings | File Templates.
-        set(value) {}
-    override var weather: String?
-        get() = TODO("not implemented") //To change initializer of created properties use File | Settings | File Templates.
-        set(value) {}
+    var temp_max: String? = null
+    var temp_min: String? = null
+    var time: String? = null
+    var weather: String? = null
     var isFinish : Boolean? = null
+    var pubDate : String? = null
+    var wet : String? = null
+    var category : String? = null
 
     companion object {
         const val WIFI = "Wi-Fi"
@@ -57,17 +52,21 @@ class MainActivity : AppCompatActivity(),MainContract.View {
 
     override fun notifyAdapter(entries:List<Entry>) {
         isFinish = true
-        this.temp_max = entries[0].tmx
-        this.temp_min = entries[0].tmn
+        this.temp_max = entries[2].tmx
+        this.temp_min = entries[2].tmn
         this.weather = entries[0].wfKor
         this.time = entries[0].tm
+        this.wet  = entries[0].reh
+        this.pubDate = entries[0].pubDate
+        this.category = entries[0].category
     }
 
     override fun updateWeatherUI() {
         temp_text_view.setText(temp_min+"/" + temp_max)
-        wet_text_view.setText("36%")
+        wet_text_view.setText(wet + "%")
         weather_text_view.setText(weather)
-        time_text_View.setText(time)
+        time_text_View.setText(pubDate)
+        area_text_view.setText(category)
     }
 
     override fun networkConnect() {

@@ -19,7 +19,9 @@ data class Entry (
     val tmn : String?,
     val wfKor : String?,
     val reh : String?,
-    val tm : String?
+    val tm : String?,
+    val pubDate : String?,
+    val category : String?
 )
 
 
@@ -33,53 +35,50 @@ class GetWeatherData {
             parser.setFeature(XmlPullParser.FEATURE_PROCESS_NAMESPACES, false)
             parser.setInput(inputStream, null)
             parser.nextTag()
-            return readFeed(parser)
+            return readData(parser)
         }
 
     }
 
     @Throws(XmlPullParserException::class, IOException::class)
-    private fun readFeed(parser : XmlPullParser) : List<Entry> {
-        Log.i("readFeed","Start")
+    private fun readData(parser : XmlPullParser) : List<Entry> {
         val entries = mutableListOf<Entry>()
-
-        while (parser.next() != XmlPullParser.END_TAG) {
-            if(parser.eventType != XmlPullParser.START_TAG) {
-                continue
-            }
-            if (parser.name == "data") {
-                entries.add(readEntry(parser))
-            } else {
-                skip(parser)
-            }
-        }
-
-        return entries
-
-    }
-    @Throws(IOException::class, XmlPullParserException::class)
-    private fun readEntry(parser : XmlPullParser) : Entry {
-        Log.i("readEntry","Start")
-        parser.require(XmlPullParser.START_TAG, ns, "entry")
         var tmx : String? = null
         var tmn : String? = null
         var wfKor : String? = null
         var reh : String? = null
         var tm : String? = null
-        while (parser.next() != XmlPullParser.END_TAG) {
-            if (parser.eventType != XmlPullParser.START_TAG) {
-                continue
+        var pubDate : String? = null
+        var category : String? = null
+
+        var eventType = parser.eventType
+
+        while(eventType != XmlPullParser.END_DOCUMENT) {
+            when(eventType) {
+                XmlPullParser.START_TAG ->
+                    when(parser.name) {
+                        "tmx"  -> tmx = readData(parser, "tmx")
+                        "tmn" -> tmn = readData(parser, "tmn")
+                        "wfKor" -> wfKor = readData(parser, "wfKor")
+                        "reh" -> reh = readData(parser, "reh")
+                        "tm" -> tm = readData(parser, "tm")
+                        "pubDate" -> pubDate = readData(parser, "pubDate")
+                        "category" -> category = readData(parser, "category")
+                    }
+                XmlPullParser.END_TAG ->
+                    if(parser.name=="data") {
+                        entries.add(Entry(tmx,tmn,wfKor,reh,tm,pubDate,category))
+
+                    }
+
             }
-            when (parser.name) {
-                "tmx"  -> tmx = readData(parser, "tmx")
-                "tmn" -> tmn = readData(parser, "tmn")
-                "wkKor" -> wfKor = readData(parser, "wkKor")
-                "reh" -> reh = readData(parser, "reh")
-                "tm" -> tm = readData(parser, "tm")
-            }
+            eventType = parser.next()
         }
-        return Entry(tmx,tmn,wfKor,reh,tm)
+
+        return entries
+
     }
+
 
     @Throws(IOException::class, XmlPullParserException::class)
     private fun readData(parser : XmlPullParser, want_tag : String) : String {
