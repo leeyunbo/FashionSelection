@@ -69,14 +69,41 @@ class MainActivity : AppCompatActivity(),MainContract.View {
         time_text_View.setText(pubDate)
         area_text_view.setText(category)
 
-        var temp = temp_min?.toInt()
+        var temp = temp_min?.toDouble()
 
-
-        if (temp?.compareTo(27) == 0) {
-            cloth_image_view.setImageResource(R.drawable.)
-
+        if(weather != null) {
+            if (weather == "맑음") {
+                weather_image_view.setImageResource(R.drawable.sunny_day)
+            } else if (weather == "구름 많음") {
+                weather_image_view.setImageResource(R.drawable.cloudy_day)
+            } else if (weather == "비") {
+                weather_image_view.setImageResource(R.drawable.rainy_day)
+            } else if (weather == "흐림") {
+                weather_image_view.setImageResource(R.drawable.bad_day)
+            } else {
+                weather_image_view.setImageResource(R.drawable.snow_day)
+            }
         }
 
+        if(temp != null) {
+            if (temp > 27) {
+                cloth_image_view.setImageResource(R.drawable.cold27)
+            } else if (temp > 23) {
+                cloth_image_view.setImageResource(R.drawable.cold23_26)
+            } else if (temp > 20) {
+                cloth_image_view.setImageResource(R.drawable.cold20_22)
+            } else if (temp > 17) {
+                cloth_image_view.setImageResource(R.drawable.cold17_19)
+            } else if (temp > 12) {
+                cloth_image_view.setImageResource(R.drawable.cold12_16)
+            } else if (temp > 10) {
+                cloth_image_view.setImageResource(R.drawable.cold10_11)
+            } else if (temp > 6) {
+                cloth_image_view.setImageResource(R.drawable.cold6_9)
+            } else  {
+                cloth_image_view.setImageResource(R.drawable.cold5)
+            }
+        }
 
     }
 
