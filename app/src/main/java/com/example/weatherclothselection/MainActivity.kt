@@ -3,6 +3,7 @@ package com.example.weatherclothselection
 import android.os.AsyncTask
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.support.annotation.IntegerRes
 import android.util.Log
 import android.view.Window
 import android.widget.TextView
@@ -67,6 +68,16 @@ class MainActivity : AppCompatActivity(),MainContract.View {
         weather_text_view.setText(weather)
         time_text_View.setText(pubDate)
         area_text_view.setText(category)
+
+        var temp = temp_min?.toInt()
+
+
+        if (temp?.compareTo(27) == 0) {
+            cloth_image_view.setImageResource(R.drawable.)
+
+        }
+
+
     }
 
     override fun networkConnect() {

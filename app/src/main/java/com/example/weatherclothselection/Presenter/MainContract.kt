@@ -16,15 +16,15 @@ interface MainContract {
         var presenter : MainContract.Presenter
 
         fun updateWeatherUI() //날씨 관련 UI 업데이트
-        fun networkConnect() // 네트워크 연결
-        fun loadXmlFromNetwork(urlString : String)
-        fun notifyAdapter(entries : List<Entry>)
+        fun networkConnect()  //네트워크 연결 시작
+        fun loadXmlFromNetwork(urlString : String) // XML 접근 후 Stream 가져오기
+        fun notifyAdapter(entries : List<Entry>) // 완료되었을 때 알림
     }
 
     interface Presenter {
         var view : View
         var weatherData : GetWeatherData
 
-        fun ObtainWeatherData(inputStream: InputStream)//날씨 관련 데이터 가져오기
+        fun ObtainWeatherData(inputStream: InputStream) //날씨 관련 데이터 가져오기
     }
 }
