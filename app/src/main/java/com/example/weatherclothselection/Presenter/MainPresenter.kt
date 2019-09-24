@@ -7,9 +7,10 @@ class MainPresenter : MainContract.Presenter {
     lateinit override var view : MainContract.View
     lateinit override var weatherData: GetWeatherData
 
-    override fun getWeatherData(inputStream: InputStream) {
-        weatherData.GetWeatherData(inputStream).let {
-            view.updateWeatherUI(it)
+    override fun ObtainWeatherData(inputStream: InputStream) {
+        weatherData = GetWeatherData()
+        weatherData.getWeatherData(inputStream).let {
+            view.notifyAdapter(it)
         }
     }
 

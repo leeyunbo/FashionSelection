@@ -4,8 +4,10 @@ import android.os.AsyncTask
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.Window
 import android.widget.TextView
 import com.example.weatherclothselection.Data.Entry
+import com.example.weatherclothselection.Data.GetWeatherData
 import com.example.weatherclothselection.Presenter.MainContract
 import com.example.weatherclothselection.Presenter.MainPresenter
 import kotlinx.android.synthetic.main.activity_main.*
@@ -17,7 +19,20 @@ import java.net.HttpURLConnection
 import java.net.URL
 
 class MainActivity : AppCompatActivity(),MainContract.View {
-    lateinit var presenter : MainContract.Presenter
+    override lateinit var presenter : MainContract.Presenter
+    override var temp_max: String?
+        get() = TODO("not implemented") //To change initializer of created properties use File | Settings | File Templates.
+        set(value) {}
+    override var temp_min: String?
+        get() = TODO("not implemented") //To change initializer of created properties use File | Settings | File Templates.
+        set(value) {}
+    override var time: String?
+        get() = TODO("not implemented") //To change initializer of created properties use File | Settings | File Templates.
+        set(value) {}
+    override var weather: String?
+        get() = TODO("not implemented") //To change initializer of created properties use File | Settings | File Templates.
+        set(value) {}
+    var isFinish : Boolean? = null
 
     companion object {
         const val WIFI = "Wi-Fi"
@@ -35,14 +50,24 @@ class MainActivity : AppCompatActivity(),MainContract.View {
 
         presenter = MainPresenter().apply {
             view = this@MainActivity
+            weatherData = GetWeatherData()
         }
         networkConnect()
     }
 
-    override fun updateWeatherUI(entries : List<Entry>) {
-        temp_text_view.setText(entries[0].tmn +"/" + entries[0].tmx)
-        wet_text_view.setText(entries[0].reh +"%")
-        weather_text_view.setText(entries[0].wfKor)
+    override fun notifyAdapter(entries:List<Entry>) {
+        isFinish = true
+        this.temp_max = entries[0].tmx
+        this.temp_min = entries[0].tmn
+        this.weather = entries[0].wfKor
+        this.time = entries[0].tm
+    }
+
+    override fun updateWeatherUI() {
+        temp_text_view.setText(temp_min+"/" + temp_max)
+        wet_text_view.setText("36%")
+        weather_text_view.setText(weather)
+        time_text_View.setText(time)
     }
 
     override fun networkConnect() {
@@ -56,36 +81,31 @@ class MainActivity : AppCompatActivity(),MainContract.View {
         }
 
         override fun onPostExecute(result: String?) {
+            while(isFinish == false) {
+                Log.i("wait","wait")
+            }
+            updateWeatherUI()
             super.onPostExecute(result)
         }
     }
 
     @Throws(XmlPullParserException::class, IOException::class)
     override fun loadXmlFromNetwork(urlString: String)  {
-        downloadUrl(urlString)?.use { presenter.getWeatherData(it)
+        downloadUrl(urlString)?.use { presenter.ObtainWeatherData(it)
         }
     }
-    override fun onDestroy() {
-        super.onDestroy()
-    }
-
 
     @Throws(IOException::class)
     private fun downloadUrl(urlString : String) : InputStream? {
         val url = URL(urlString)
-        val httpClient = url.openConnection() as HttpURLConnection
-        lateinit var stream : InputStream
-        httpClient.requestMethod = "GET"
-        httpClient.connectTimeout = 10000
-        httpClient.readTimeout =  15000
-        httpClient.doInput = true
-
-
-
-        stream = BufferedInputStream(httpClient.inputStream)
-
-
-        return stream
+        return (url.openConnection() as? HttpURLConnection)?.run {
+            readTimeout = 10000
+            connectTimeout = 15000
+            requestMethod = "GET"
+            doInput = true
+            connect()
+            inputStream
+        }
 
 
     }

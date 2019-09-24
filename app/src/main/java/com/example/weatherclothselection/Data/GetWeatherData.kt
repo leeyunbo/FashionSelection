@@ -2,6 +2,7 @@ package com.example.weatherclothselection.Data
 
 import android.content.res.Resources
 import android.os.DropBoxManager
+import android.util.Log
 import android.util.Xml
 import com.example.weatherclothselection.MainActivity
 import org.xmlpull.v1.XmlPullParser
@@ -14,7 +15,6 @@ import java.security.KeyStore
 
 private val ns: String? = null
 data class Entry (
-    val category : String?,
     val tmx : String?,
     val tmn : String?,
     val wfKor : String?,
@@ -26,7 +26,8 @@ data class Entry (
 class GetWeatherData {
 
     @Throws(XmlPullParserException::class, IOException::class)
-    fun GetWeatherData(inputStream : InputStream) : List<Entry> {
+    fun getWeatherData(inputStream : InputStream) : List<Entry> {
+        Log.i("getWeatherData","Start")
         inputStream.use { inputStream ->
             val parser: XmlPullParser = Xml.newPullParser()
             parser.setFeature(XmlPullParser.FEATURE_PROCESS_NAMESPACES, false)
@@ -39,16 +40,15 @@ class GetWeatherData {
 
     @Throws(XmlPullParserException::class, IOException::class)
     private fun readFeed(parser : XmlPullParser) : List<Entry> {
+        Log.i("readFeed","Start")
         val entries = mutableListOf<Entry>()
 
-        parser.require(XmlPullParser.START_TAG,ns,"feed")
         while (parser.next() != XmlPullParser.END_TAG) {
             if(parser.eventType != XmlPullParser.START_TAG) {
                 continue
             }
-            if (parser.name == "item") {
+            if (parser.name == "data") {
                 entries.add(readEntry(parser))
-                break
             } else {
                 skip(parser)
             }
@@ -59,13 +59,13 @@ class GetWeatherData {
     }
     @Throws(IOException::class, XmlPullParserException::class)
     private fun readEntry(parser : XmlPullParser) : Entry {
+        Log.i("readEntry","Start")
         parser.require(XmlPullParser.START_TAG, ns, "entry")
         var tmx : String? = null
         var tmn : String? = null
         var wfKor : String? = null
         var reh : String? = null
         var tm : String? = null
-        var category : String? = null
         while (parser.next() != XmlPullParser.END_TAG) {
             if (parser.eventType != XmlPullParser.START_TAG) {
                 continue
@@ -75,15 +75,15 @@ class GetWeatherData {
                 "tmn" -> tmn = readData(parser, "tmn")
                 "wkKor" -> wfKor = readData(parser, "wkKor")
                 "reh" -> reh = readData(parser, "reh")
-                "category" -> category = readData(parser, "category")
                 "tm" -> tm = readData(parser, "tm")
             }
         }
-        return Entry(category,tmx,tmn,wfKor,reh,tm)
+        return Entry(tmx,tmn,wfKor,reh,tm)
     }
 
     @Throws(IOException::class, XmlPullParserException::class)
     private fun readData(parser : XmlPullParser, want_tag : String) : String {
+        Log.i("readData","Start")
         parser.require(XmlPullParser.START_TAG, ns, want_tag)
         val data = readText(parser)
         parser.require(XmlPullParser.END_TAG, ns, want_tag)
@@ -92,6 +92,7 @@ class GetWeatherData {
 
     @Throws(IOException::class, XmlPullParserException::class)
     private fun readText(parser : XmlPullParser) : String {
+        Log.i("readText","Start")
         var result = ""
         if (parser.next() == XmlPullParser.TEXT) {
             result = parser.text
@@ -103,6 +104,7 @@ class GetWeatherData {
 
     @Throws(IOException::class, XmlPullParserException::class)
     private fun skip(parser : XmlPullParser) {
+        Log.i("skip","Start")
         if (parser.eventType != XmlPullParser.START_TAG) {
             throw IllegalStateException()
         }

@@ -8,15 +8,14 @@
         tools:context=".MainActivity">
 
     <ImageView
-            android:layout_width="253dp"
-            android:layout_height="0dp"
-            tools:srcCompat="@tools:sample/avatars[0]"
+            android:layout_width="180dp"
+            android:layout_height="180dp"
             android:id="@+id/cloth_image_view"
             android:layout_marginBottom="164dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintHorizontal_bias="0.424"
+            app:layout_constraintHorizontal_bias="0.337"
             app:layout_constraintTop_toBottomOf="@+id/wet_text_view" app:srcCompat="@mipmap/ic_launcher"/>
     <TextView
             android:text="경기도 수원시"
@@ -28,7 +27,8 @@
             app:layout_constraintStart_toStartOf="@+id/weather_image_view"
             android:layout_marginTop="102dp"
             android:layout_marginBottom="12dp"
-            app:layout_constraintBottom_toTopOf="@+id/weather_image_view"/>
+            app:layout_constraintBottom_toTopOf="@+id/weather_image_view"
+            android:layout_marginLeft="124dp" android:layout_marginStart="124dp"/>
     <TextView
             android:text="기온"
             android:textSize="30dp"
@@ -52,10 +52,11 @@
             app:layout_constraintTop_toBottomOf="@+id/temp_text_view"
             app:layout_constraintStart_toEndOf="@+id/weather_image_view"
             android:layout_marginBottom="148dp"
-            app:layout_constraintBottom_toTopOf="@+id/cloth_image_view"/>
+            app:layout_constraintBottom_toTopOf="@+id/cloth_image_view" android:layout_marginLeft="8dp"
+            android:layout_marginStart="8dp"/>
     <ImageView
-            android:layout_width="0dp"
-            android:layout_height="0dp"
+            android:layout_width="180dp"
+            android:layout_height="180dp"
             tools:srcCompat="@tools:sample/avatars[5]"
             android:id="@+id/weather_image_view"
             app:layout_constraintTop_toBottomOf="@+id/area_text_view"
@@ -83,19 +84,19 @@
             android:textSize="20dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/textView"
-            android:layout_marginEnd="35dp"
-            android:layout_marginRight="35dp"
-            android:layout_marginBottom="12dp"
+            android:id="@+id/time_text_View"
             app:layout_constraintEnd_toEndOf="@+id/weather_image_view"
-            app:layout_constraintBottom_toTopOf="@+id/weather_image_view"/>
+            app:layout_constraintBottom_toTopOf="@+id/weather_image_view"
+            android:layout_marginEnd="140dp" android:layout_marginRight="140dp"/>
     <TextView
             android:text="날씨"
+            android:textSize="30dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/weather_text_view"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="16dp"
             app:layout_constraintTop_toBottomOf="@+id/weather_image_view"
-            app:layout_constraintEnd_toStartOf="@+id/textView"/>
+            app:layout_constraintEnd_toStartOf="@+id/time_text_View"
+    />
 
 </android.support.constraint.ConstraintLayout>
