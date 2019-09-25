@@ -10,8 +10,6 @@ import java.io.InputStream
 
 interface MainContract {
 
-
-
     interface View {
         var presenter : MainContract.Presenter
 
