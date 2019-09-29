@@ -30,6 +30,10 @@
                 android:layout_height="wrap_content"
                 android:textSize="15dp"
                 android:id="@+id/area_text_view"/>
+            <Button android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="리스트로 이동"
+                    android:id="@+id/move_list_button"/>
 
         </LinearLayout>
         <View

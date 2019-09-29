@@ -1,16 +1,19 @@
 package com.example.weatherclothselection
 
+import android.content.Intent
 import android.os.AsyncTask
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.annotation.IntegerRes
 import android.util.Log
+import android.view.View
 import android.view.Window
 import android.widget.TextView
 import com.example.weatherclothselection.Data.Entry
 import com.example.weatherclothselection.Data.GetWeatherData
 import com.example.weatherclothselection.Presenter.MainContract
 import com.example.weatherclothselection.Presenter.MainPresenter
+import com.example.weatherclothselection.Presenter.WeatherListContract
 import kotlinx.android.synthetic.main.activity_main.*
 import org.xmlpull.v1.XmlPullParserException
 import java.io.BufferedInputStream
@@ -21,6 +24,7 @@ import java.net.URL
 
 class MainActivity : AppCompatActivity(),MainContract.View {
     override lateinit var presenter : MainContract.Presenter
+    lateinit var view : WeatherListContract.View
     var temp_max: String? = null
     var temp_min: String? = null
     var time: String? = null
@@ -51,8 +55,9 @@ class MainActivity : AppCompatActivity(),MainContract.View {
         networkConnect()
     }
 
-    override fun notifyAdapter(entries:List<Entry>) {
+    override fun notifyAdapter(entries:List<Entry>,view : WeatherListContract.View) {
         isFinish = true
+        this.view = view
         this.temp_max = entries[2].tmx
         this.temp_min = entries[2].tmn
         this.weather = entries[0].wfKor
@@ -68,6 +73,10 @@ class MainActivity : AppCompatActivity(),MainContract.View {
         weather_text_view.setText(weather)
         time_text_View.setText(pubDate)
         area_text_view.setText(category)
+        move_list_button.setOnClickListener {
+            val listIntent = Intent(this, WeatherListActivity::class.java)
+            startActivity(listIntent)
+        }
 
         var temp = temp_min?.toDouble()
 

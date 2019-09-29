@@ -29,7 +29,7 @@ class WeatherAdapter(val context : Context, val weatherList : List<Entry>) : Bas
         weatherInform.text = weather.wfKor
         time.text = weather.pubDate
 
-        return view 
+        return view
 
     }
 

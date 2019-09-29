@@ -16,10 +16,9 @@ interface WeatherListContract {
 
 
     interface Presenter {
-        var view : WeatherListContract.View
         var weatherData : GetWeatherData
 
-        fun requestWeatherList(inputStream: InputStream) // 날씨 관련 데이터 요청
+        fun getWeatherList(weatherList : List<Entry>,view : View) // 날씨 관련 데이터 요청
 
 
     }
