@@ -14,14 +14,15 @@ import java.net.URL
 import java.security.KeyStore
 
 private val ns: String? = null
+
 data class Entry (
-    val tmx : String?,
-    val tmn : String?,
-    val wfKor : String?,
-    val reh : String?,
-    val tm : String?,
-    val pubDate : String?,
-    val category : String?
+    val tmx : String?, //최대 온도
+    val tmn : String?, //최소 온도
+    val wfKor : String?, //날씨
+    val reh : String?, //습도
+    val tm : String?,  //시간
+    val pubDate : String?, //날짜
+    val category : String? //장소 
 )
 
 
