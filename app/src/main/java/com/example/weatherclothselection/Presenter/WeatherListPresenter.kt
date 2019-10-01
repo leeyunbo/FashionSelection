@@ -7,12 +7,11 @@ import java.io.InputStream
 
 class WeatherListPresenter : WeatherListContract.Presenter{
     lateinit override var weatherData: GetWeatherData
+    lateinit override var view: WeatherListContract.View
     lateinit var weatherList : List<Entry>
 
-    override fun getWeatherList(weatherList : List<Entry>, view : WeatherListContract.View) {
-
-        view.notifyAdapter(true,weatherList)
-
+    override fun getWeatherList() {
+        view.notifyAdapter(true)
         }
     }
 

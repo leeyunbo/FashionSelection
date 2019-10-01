@@ -9,7 +9,7 @@ interface WeatherListContract {
         var presenter : WeatherListContract.Presenter
 
         fun updateWeatherList() //날씨 관련 UI 업데이트
-        fun notifyAdapter(isChange : Boolean, weatherList : List<Entry>) //어뎁터 변경 알림
+        fun notifyAdapter(isChange : Boolean) //어뎁터 변경 알림
 
 
     }
@@ -17,8 +17,9 @@ interface WeatherListContract {
 
     interface Presenter {
         var weatherData : GetWeatherData
+        var view : WeatherListContract.View
 
-        fun getWeatherList(weatherList : List<Entry>,view : View) // 날씨 관련 데이터 요청
+        fun getWeatherList() // 날씨 관련 데이터 요청
 
 
     }

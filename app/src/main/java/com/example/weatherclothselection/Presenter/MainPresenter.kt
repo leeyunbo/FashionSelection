@@ -12,8 +12,7 @@ class MainPresenter : MainContract.Presenter {
     override fun ObtainWeatherData(inputStream: InputStream) {
         weatherData = GetWeatherData()
         weatherData.getWeatherData(inputStream).let {
-            view.notifyAdapter(it,weatherListView)
-            weatherListPresenter.getWeatherList(it,weatherListView)
+            view.notifyAdapter(it)
         }
     }
 

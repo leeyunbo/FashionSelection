@@ -33,6 +33,7 @@ class MainActivity : AppCompatActivity(),MainContract.View {
     var pubDate : String? = null
     var wet : String? = null
     var category : String? = null
+    lateinit var weather_list : List<Entry>
 
     companion object {
         const val WIFI = "Wi-Fi"
@@ -53,9 +54,14 @@ class MainActivity : AppCompatActivity(),MainContract.View {
             weatherData = GetWeatherData()
         }
         networkConnect()
+        move_list_button.setOnClickListener{
+            val intent = Intent(this,WeatherListActivity::class.java)
+            intent.putExtra("weather_list",weather_list)
+            startActivity(intent)
+        }
     }
 
-    override fun notifyAdapter(entries:List<Entry>,view : WeatherListContract.View) {
+    override fun notifyAdapter(entries:List<Entry>) {
         isFinish = true
         this.view = view
         this.temp_max = entries[2].tmx
@@ -65,6 +71,7 @@ class MainActivity : AppCompatActivity(),MainContract.View {
         this.wet  = entries[0].reh
         this.pubDate = entries[0].pubDate
         this.category = entries[0].category
+        this.weather_list = entries
     }
 
     override fun updateWeatherUI() {
