@@ -54,11 +54,6 @@ class MainActivity : AppCompatActivity(),MainContract.View {
             weatherData = GetWeatherData()
         }
         networkConnect()
-        move_list_button.setOnClickListener{
-            val intent = Intent(this,WeatherListActivity::class.java)
-            intent.putExtra("weather_list",weather_list)
-            startActivity(intent)
-        }
     }
 
     override fun notifyAdapter(entries:List<Entry>) {
