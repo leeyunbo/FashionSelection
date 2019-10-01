@@ -7,10 +7,12 @@ import java.io.InputStream
 interface WeatherListContract {
     interface View {
         var presenter : WeatherListContract.Presenter
+        var weather_list : List<Entry>
 
         fun updateWeatherList(isChange : Boolean, weather_list: List<Entry>) //날씨 관련 UI 업데이트
-        fun requestWeatherList() : List<Entry>
         fun networkConnect()
+        fun loadXmlFromNetwork(urlString : String)
+        fun downloadUrl(urlString: String) : InputStream?
 
     }
 
@@ -19,7 +21,7 @@ interface WeatherListContract {
         var weatherData : GetWeatherData
         var view : WeatherListContract.View
 
-        fun getWeatherList() : List<Entry> // 날씨 관련 데이터 요청
+        fun getWeatherList(inputStream: InputStream) : List<Entry> // 날씨 관련 데이터 요청
 
 
     }

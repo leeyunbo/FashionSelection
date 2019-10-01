@@ -9,10 +9,8 @@ class WeatherListPresenter : WeatherListContract.Presenter {
     lateinit override var weatherData: GetWeatherData
     lateinit override var view: WeatherListContract.View
 
-    override fun getWeatherList(): List<Entry> {
-
-
-        return weatherData.getWeatherData()
+    override fun getWeatherList(inputStream: InputStream): List<Entry> {
+        return weatherData.getWeatherData(inputStream)
     }
 
 }

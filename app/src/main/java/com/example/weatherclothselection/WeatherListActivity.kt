@@ -21,6 +21,7 @@ import java.net.URL
 class WeatherListActivity : AppCompatActivity(),WeatherListContract.View {
 
     lateinit override var presenter: WeatherListContract.Presenter
+    lateinit override var weather_list: List<Entry>
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -36,9 +37,6 @@ class WeatherListActivity : AppCompatActivity(),WeatherListContract.View {
 
     }
 
-    override fun requestWeatherList() : List<Entry> {
-        return presenter.getWeatherList()
-    }
 
     override fun updateWeatherList(isChange: Boolean, weather_list: List<Entry>) {
 
@@ -51,26 +49,15 @@ class WeatherListActivity : AppCompatActivity(),WeatherListContract.View {
         DownloadXmlTask().execute(MainActivity.SO_URL)
     }
 
-    private inner class DownloadXmlTask : AsyncTask<String, Void, String>() {
-        override fun doInBackground(vararg urls: String) : String{
-            loadXmlFromNetwork(urls[0])
-            return "Connect Success"
-        }
-
-        override fun onPostExecute(result: String?) {
-            updateWeatherList(true,requestWeatherList())
-            super.onPostExecute(result)
-        }
-    }
-
     @Throws(XmlPullParserException::class, IOException::class)
     override fun loadXmlFromNetwork(urlString: String)  {
-        downloadUrl(urlString)?.use { presenter.getWeatherList(it)
+        downloadUrl(urlString)?.use {
+            this.weather_list = presenter.getWeatherList(it)
         }
     }
 
     @Throws(IOException::class)
-    private fun downloadUrl(urlString : String) : InputStream? {
+    override fun downloadUrl(urlString : String) : InputStream? {
         val url = URL(urlString)
         return (url.openConnection() as? HttpURLConnection)?.run {
             readTimeout = 10000
@@ -83,6 +70,19 @@ class WeatherListActivity : AppCompatActivity(),WeatherListContract.View {
 
 
     }
+
+    private inner class DownloadXmlTask : AsyncTask<String, Void, String>() {
+        override fun doInBackground(vararg urls: String) : String{
+            loadXmlFromNetwork(urls[0])
+            return "Connect Success"
+        }
+
+        override fun onPostExecute(result: String?) {
+            updateWeatherList(true,weather_list)
+            super.onPostExecute(result)
+        }
+    }
+
 
 
 
