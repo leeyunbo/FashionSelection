@@ -58,7 +58,6 @@ class MainActivity : AppCompatActivity(),MainContract.View {
 
     override fun notifyAdapter(entries:List<Entry>) {
         isFinish = true
-        this.view = view
         this.temp_max = entries[2].tmx
         this.temp_min = entries[2].tmn
         this.weather = entries[0].wfKor
