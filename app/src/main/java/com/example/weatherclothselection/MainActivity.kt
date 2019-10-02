@@ -61,7 +61,7 @@ class MainActivity : AppCompatActivity(),MainContract.View {
         this.temp_max = entries[2].tmx
         this.temp_min = entries[2].tmn
         this.weather = entries[0].wfKor
-        this.time = entries[0].tm
+        this.time = entries[0].hour
         this.wet  = entries[0].reh
         this.pubDate = entries[0].pubDate
         this.category = entries[0].category

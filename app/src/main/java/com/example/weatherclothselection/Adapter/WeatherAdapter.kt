@@ -24,10 +24,10 @@ class WeatherAdapter(val context : Context, val weatherList : List<Entry>) : Bas
         val time = view.findViewById<TextView>(R.id.time_list_text_view)
         val weather = weatherList.get(position)
 
-        temp.text = weather.tm
-        wet.text = weather.reh
+        temp.text = "기온 : " + weather.temp
+        wet.text = "습도 : " + weather.reh + "%"
         weatherInform.text = weather.wfKor
-        time.text = weather.pubDate
+        time.text = "시간 : " + weather.hour
 
         return view
 

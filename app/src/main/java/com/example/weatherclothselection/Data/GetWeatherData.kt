@@ -20,9 +20,10 @@ data class Entry (
     val tmn : String?, //최소 온도
     val wfKor : String?, //날씨
     val reh : String?, //습도
-    val tm : String?,  //시간
+    val hour : String?,  //시간
     val pubDate : String?, //날짜
-    val category : String? //장소 
+    val category : String?,
+    val temp : String?
 )
 
 
@@ -48,9 +49,10 @@ class GetWeatherData {
         var tmn : String? = null
         var wfKor : String? = null
         var reh : String? = null
-        var tm : String? = null
+        var hour : String? = null
         var pubDate : String? = null
         var category : String? = null
+        var temp : String? = null
 
         var eventType = parser.eventType
 
@@ -62,15 +64,17 @@ class GetWeatherData {
                         "tmn" -> tmn = readData(parser, "tmn")
                         "wfKor" -> wfKor = readData(parser, "wfKor")
                         "reh" -> reh = readData(parser, "reh")
-                        "tm" -> tm = readData(parser, "tm")
+                        "hour" -> hour = readData(parser, "hour")
                         "pubDate" -> pubDate = readData(parser, "pubDate")
                         "category" -> category = readData(parser, "category")
+                        "temp" -> temp = readData(parser, "temp")
                     }
                 XmlPullParser.END_TAG ->
                     if(parser.name=="data") {
-                        entries.add(Entry(tmx,tmn,wfKor,reh,tm,pubDate,category))
+                        entries.add(Entry(tmx,tmn,wfKor,reh,hour,pubDate,category,temp))
 
                     }
+                
 
             }
             eventType = parser.next()
