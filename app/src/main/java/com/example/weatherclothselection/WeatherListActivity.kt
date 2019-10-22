@@ -37,12 +37,9 @@ class WeatherListActivity : AppCompatActivity(),WeatherListContract.View {
 
     }
 
-
     override fun updateWeatherList(isChange: Boolean, weather_list: List<Entry>) {
-
         val weatherAdapter = WeatherAdapter(this, weather_list)
         weather_list_view.adapter = weatherAdapter
-
     }
 
     override fun networkConnect() {
@@ -67,18 +64,16 @@ class WeatherListActivity : AppCompatActivity(),WeatherListContract.View {
             connect()
             inputStream
         }
-
-
     }
 
-    private inner class DownloadXmlTask : AsyncTask<String, Void, String>() {
+    private inner class DownloadXmlTask : AsyncTask<String, Void, String>() { //비동기로 수행
         override fun doInBackground(vararg urls: String) : String{
             loadXmlFromNetwork(urls[0])
             return "Connect Success"
         }
 
         override fun onPostExecute(result: String?) {
-            updateWeatherList(true,weather_list)
+            updateWeatherList(true,weather_list) //비동기적으로 수행이 완료되면 ,호출
             super.onPostExecute(result)
         }
     }

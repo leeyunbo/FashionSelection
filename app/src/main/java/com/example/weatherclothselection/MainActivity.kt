@@ -131,7 +131,7 @@ class MainActivity : AppCompatActivity(),MainContract.View {
             while(isFinish == false) {
                 Log.i("wait","wait")
             }
-            updateWeatherUI()
+            updateWeatherUI() // 비동기적으로 수행중, 완료되면 UI 업데이트
             super.onPostExecute(result)
         }
     }
